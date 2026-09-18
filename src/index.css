@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+/* ── Design Tokens — Default Light Theme (Matches Public UI) ─────────────── */
+:root {
+  --bg-primary:    #FAF9F6;
+  --bg-card:       #FFFFFF;
+  --bg-card-hover: #F3F1EC;
+  --text-primary:  #0F1014;
+  --text-secondary:#4F505E;
+  --text-muted:    #888898;
+  --border-color:  rgba(15, 16, 20, 0.08);
+  --border-strong: rgba(15, 16, 20, 0.22);
+  --accent-gold:   #8C6A3B;
+  --accent-dark:   #0F1014;
+  --badge-bg:      rgba(15, 16, 20, 0.04);
+  --badge-text:    #0F1014;
+  --glow-color:    rgba(140, 106, 59, 0.12);
+}
+
+/* ── Dark Theme Class ────────────────────────────────────────────────────── */
+.dark {
+  --bg-primary:    #0A0B0E;
+  --bg-card:       #12131A;
+  --bg-card-hover: #191B24;
+  --text-primary:  #F4F4F6;
+  --text-secondary:#A0A0B2;
+  --text-muted:    #646476;
+  --border-color:  rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --accent-gold:   #E5C59E;
+  --accent-dark:   #F4F4F6;
+  --badge-bg:      rgba(255, 255, 255, 0.05);
+  --badge-text:    #E5C59E;
+  --glow-color:    rgba(229, 197, 158, 0.12);
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* Anchor offset so floating pill navbar doesn't occlude jump targets */
+[id] { scroll-margin-top: 5.5rem; }
+
+/* ── Ambient Dot Grid Background ─────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, var(--border-color) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: 0.55;
+  }
+}
+
+/* ── Fonts ───────────────────────────────────────────────────────────────── */
+.font-sans-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.font-mono-code { font-family: 'Space Mono', monospace; }
+
+/* ── Glass Card & Agency Containers ─────────────────────────────────────── */
+.glass-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 12px 32px -8px var(--glow-color);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn-primary {
+  background-color: var(--accent-dark);
+  color: var(--bg-primary);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 0.65rem 1.4rem; border-radius: 9999px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); border: none; cursor: pointer;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -4px var(--glow-color);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 0.65rem 1.4rem; border-radius: 9999px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
+}
+.btn-secondary:hover {
+  border-color: var(--text-primary);
+  background-color: var(--bg-card-hover);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: transparent;
+  color: #DC2626;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 0.5rem 1rem; border-radius: 9999px;
+  transition: all 0.2s ease; cursor: pointer;
+}
+.btn-danger:hover { background: rgba(220, 38, 38, 0.08); }
+
+/* ── Badge ───────────────────────────────────────────────────────────────── */
+.badge-glass {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
+  border: 1px solid var(--border-color);
+  padding: 0.3rem 0.75rem; border-radius: 9999px;
+}
+
+/* ── Form Controls ───────────────────────────────────────────────────────── */
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.875rem;
+  padding: 0.7rem 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px var(--glow-color);
+}
+.form-input::placeholder, .form-textarea::placeholder {
+  color: var(--text-muted);
+}
+.form-select option { background: var(--bg-card); color: var(--text-primary); }
+.form-textarea { resize: vertical; min-height: 100px; }
+.form-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-secondary);
+  display: block; margin-bottom: 0.4rem;
+}
+
+/* ── Table ───────────────────────────────────────────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table thead th {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.75rem 1.25rem; text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--badge-bg);
+}
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.15s;
+}
+.data-table tbody tr:last-child { border-bottom: none; }
+.data-table tbody tr:hover { background-color: var(--bg-card-hover); }
+.data-table tbody td { padding: 0.9rem 1.25rem; vertical-align: middle; font-size: 0.875rem; }
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── Stat Card ───────────────────────────────────────────────────────────── */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem; padding: 1.5rem;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 8px 24px -4px var(--glow-color);
+}
+
+/* ── Toast / Alert ───────────────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+  background: var(--bg-card); border: 1px solid var(--border-strong);
+  box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15);
+  border-radius: 0.75rem; padding: 0.875rem 1.25rem;
+  font-size: 0.85rem; max-width: 360px;
+  animation: toastIn 0.25s ease;
+}
+@keyframes toastIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── Modal Animations ────────────────────────────────────────────────────── */
+.animate-fade-in {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-modal-scale {
+  animation: modalScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalScale {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Spinner ─────────────────────────────────────────────────────────────── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--accent-gold);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
