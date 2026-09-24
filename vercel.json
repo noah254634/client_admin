@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/login", "destination": "/" },
+    { "source": "/hero", "destination": "/" },
+    { "source": "/messages", "destination": "/" },
+    { "source": "/articles", "destination": "/" },
+    { "source": "/testimonials", "destination": "/" },
+    { "source": "/projects", "destination": "/" },
+    { "source": "/projects/:path*", "destination": "/" }
+  ]
+}

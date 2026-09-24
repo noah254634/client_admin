@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { getApiErrorMessage, login as apiLogin } from '../api';
-import { Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 
 export default function Login() {
   const { signIn } = useAuth();
@@ -47,7 +47,6 @@ export default function Login() {
             <div>
               <label className="form-label" htmlFor="email">Name or Email</label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                 <input
                   type="email"
                   id="email"
@@ -55,7 +54,7 @@ export default function Login() {
                   value={form.email}
                   onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
                   placeholder="Your name or email"
-                  className="form-input pl-10"
+                  className="form-input"
                 />
               </div>
             </div>
@@ -63,7 +62,6 @@ export default function Login() {
             <div>
               <label className="form-label" htmlFor="password">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
