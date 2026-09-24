@@ -1,6 +1,34 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '/api' });
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+const API_BASE_URL = (() => {
+  if (!configuredApiUrl) return '/api';
+
+  const withProtocol = configuredApiUrl.startsWith('/') || configuredApiUrl.includes('://')
+    ? configuredApiUrl
+    : `https://${configuredApiUrl}`;
+  const normalized = withProtocol.replace(/\/$/, '');
+
+  return normalized === '/api' || normalized.endsWith('/api')
+    ? normalized
+    : `${normalized}/api`;
+})();
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+});
+
+export const getApiErrorMessage = (error) => {
+  const message = error?.response?.data?.message ?? error?.response?.data?.error ?? error?.message;
+
+  if (typeof message === 'string' && message.trim()) return message;
+  if (message && typeof message === 'object') {
+    if (typeof message.message === 'string' && message.message.trim()) return message.message;
+    if (typeof message.code === 'string' && message.code.trim()) return message.code;
+  }
+
+  return 'An unexpected server error occurred.';
+};
 
 let globalErrorHandler = null;
 
@@ -30,11 +58,7 @@ api.interceptors.response.use(
     }
 
     if (globalErrorHandler) {
-      const message =
-        err.response?.data?.message ||
-        err.response?.data?.error ||
-        err.message ||
-        'An unexpected server error occurred.';
+      const message = getApiErrorMessage(err);
 
       const title =
         status === 500
@@ -80,6 +104,18 @@ export const deleteMessage = (id) => api.delete(`/messages/${id}`).then((r) => r
 
 export const getArticles   = ()     => api.get('/articles').then((r) => r.data.data ?? r.data);
 export const createArticle = (data) => api.post('/articles', data).then((r) => r.data.data ?? r.data);
+
+export const getTestimonials = () =>
+  api.get('/testimonials?includeUnpublished=true').then((r) => r.data.data ?? r.data);
+export const createTestimonial = (data) =>
+  api.post('/testimonials', data).then((r) => r.data.data ?? r.data);
+export const updateTestimonial = (id, data) =>
+  api.patch(`/testimonials/${id}`, data).then((r) => r.data.data ?? r.data);
+export const deleteTestimonial = (id) => api.delete(`/testimonials/${id}`).then((r) => r.data);
+export const uploadTestimonialAvatar = (formData) =>
+  api.post('/testimonials/avatar', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }).then((r) => r.data);
 
 export const getTechnologies = () => api.get('/technologies').then((r) => r.data.data ?? r.data);
 

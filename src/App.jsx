@@ -11,6 +11,7 @@ import ProjectPhotos from './pages/ProjectPhotos';
 import HeroSettings from './pages/HeroSettings';
 import Messages   from './pages/Messages';
 import Articles   from './pages/Articles';
+import Testimonials from './pages/Testimonials';
 
 export default function App() {
   const { isAuth } = useAuth();
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="hero"     element={<HeroSettings />} />
         <Route path="messages" element={<Messages />} />
         <Route path="articles" element={<Articles />} />
+        <Route path="testimonials" element={<Testimonials />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

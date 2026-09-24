@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
 import {
   LayoutDashboard, FolderKanban, MessageSquare,
-  FileText, LogOut, Sun, Moon, ExternalLink, Menu, X, Shield, User
+  FileText, MessageCircle, LogOut, Sun, Moon, ExternalLink, Menu, X, Shield, User
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { to: '/hero',     label: 'Hero & CV', icon: User,           end: false },
   { to: '/messages', label: 'Messages',  icon: MessageSquare,  end: false },
   { to: '/articles', label: 'Articles',  icon: FileText,        end: false },
+  { to: '/testimonials', label: 'Testimonials', icon: MessageCircle, end: false },
 ];
 
 export default function AdminNavbar() {

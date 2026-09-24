@@ -376,6 +376,17 @@ export default function HeroSettings() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
+              <label className="form-label">Contact Email</label>
+              <input
+                className="form-input"
+                type="email"
+                value={form.email}
+                onChange={(e) => setField('email', e.target.value)}
+                placeholder="hello@example.com"
+              />
+            </div>
+
+            <div>
               <label className="form-label">GitHub URL</label>
               <input
                 className="form-input"

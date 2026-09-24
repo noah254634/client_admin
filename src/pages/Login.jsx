@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
-import { login as apiLogin } from '../api';
-import { Lock, User, ArrowRight } from 'lucide-react';
+import { getApiErrorMessage, login as apiLogin } from '../api';
+import { Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
 
 export default function Login() {
   const { signIn } = useAuth();
@@ -10,6 +10,7 @@ export default function Login() {
   const [form,    setForm]    = useState({ email: '', password: '' });
   const [error,   setError]   = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ export default function Login() {
       signIn(data.token, data.admin);
       navigate('/', { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid credentials');
+      setError(getApiErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -44,7 +45,7 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="form-label">Email Address</label>
+              <label className="form-label" htmlFor="email">Name or Email</label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                 <input
@@ -53,25 +54,34 @@ export default function Login() {
                   required
                   value={form.email}
                   onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
-                  placeholder="admin@example.com"
+                  placeholder="Your name or email"
                   className="form-input pl-10"
                 />
               </div>
             </div>
 
             <div>
-              <label className="form-label">Password</label>
+              <label className="form-label" htmlFor="password">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   required
                   value={form.password}
                   onChange={(e) => setForm(p => ({ ...p, password: e.target.value }))}
                   placeholder="••••••••"
-                  className="form-input pl-10"
+                  className="form-input pl-10 pr-11"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
