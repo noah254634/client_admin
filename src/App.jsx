@@ -12,6 +12,7 @@ import HeroSettings from './pages/HeroSettings';
 import Messages   from './pages/Messages';
 import Articles   from './pages/Articles';
 import Testimonials from './pages/Testimonials';
+import Analytics    from './pages/Analytics';
 
 export default function App() {
   const { isAuth } = useAuth();
@@ -22,6 +23,7 @@ export default function App() {
 
       <Route element={<AdminLayout />}>
         <Route index           element={<Dashboard />} />
+        <Route path="analytics" element={<Analytics />} />
         <Route path="projects" element={<Projects />} />
         <Route path="projects/new"        element={<ProjectForm />} />
         <Route path="projects/:slug/edit" element={<ProjectForm />} />

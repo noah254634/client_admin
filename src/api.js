@@ -149,4 +149,13 @@ export const uploadCv = (formData) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   }).then((r) => r.data);
 
+export const getAnalyticsStats = (days = 30) =>
+  api.get(`/analytics/stats?days=${days}`).then((r) => r.data.data ?? r.data);
+
+export const deleteAnalyticsVisit = (id) =>
+  api.delete(`/analytics/visit/${id}`).then((r) => r.data);
+
+export const deleteAnalyticsByDevice = (deviceType) =>
+  api.delete(`/analytics/device/${deviceType}`).then((r) => r.data);
+
 export default api;

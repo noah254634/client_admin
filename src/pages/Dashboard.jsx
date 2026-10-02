@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getProjects, getMessages, getArticles } from '../api';
+import { getProjects, getMessages, getArticles, getAnalyticsStats } from '../api';
 import PageHeader from '../components/PageHeader';
-import { FolderKanban, MessageSquare, FileText, ArrowUpRight, Activity } from 'lucide-react';
+import { FolderKanban, MessageSquare, FileText, ArrowUpRight, Activity, BarChart3 } from 'lucide-react';
 
 function StatCard({ icon: Icon, label, value, to, accent }) {
   return (
@@ -23,11 +23,17 @@ export default function Dashboard() {
   const [projects,  setProjects]  = useState([]);
   const [messages,  setMessages]  = useState([]);
   const [articles,  setArticles]  = useState([]);
+  const [analytics, setAnalytics] = useState(null);
   const [loading,   setLoading]   = useState(true);
 
   useEffect(() => {
-    Promise.all([getProjects(), getMessages(), getArticles()])
-      .then(([p, m, a]) => { setProjects(p); setMessages(m); setArticles(a); })
+    Promise.all([getProjects(), getMessages(), getArticles(), getAnalyticsStats(30)])
+      .then(([p, m, a, stats]) => {
+        setProjects(p);
+        setMessages(m);
+        setArticles(a);
+        setAnalytics(stats);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -41,10 +47,11 @@ export default function Dashboard() {
 
       <div className="space-y-8">
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <StatCard icon={FolderKanban} label="Total Projects" value={loading ? null : projects.length}  to="/projects" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatCard icon={FolderKanban} label="Total Projects" value={loading ? null : projects.length} to="/projects" />
+          <StatCard icon={BarChart3} label="Visitor Telemetry" value={loading ? null : analytics?.summary?.totalVisits} to="/analytics" />
           <StatCard icon={MessageSquare} label="Inbox Messages" value={loading ? null : messages.length} to="/messages" />
-          <StatCard icon={FileText} label="Articles" value={loading ? null : articles.length}             to="/articles" />
+          <StatCard icon={FileText} label="Articles" value={loading ? null : articles.length} to="/articles" />
         </div>
 
         {/* Recent projects */}

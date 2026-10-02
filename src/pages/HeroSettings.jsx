@@ -111,11 +111,25 @@ export default function HeroSettings() {
     }
   };
 
+  const ALLOWED_CV_TYPES = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/rtf',
+    'text/rtf',
+    'text/plain',
+  ];
+  const ALLOWED_CV_EXTENSIONS = ['.pdf', '.doc', '.docx', '.rtf', '.txt'];
+
   const handleCvFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.type !== 'application/pdf') {
-      setToast({ message: 'Please select a PDF document for your CV', type: 'error' });
+
+    const ext = '.' + file.name.split('.').pop().toLowerCase();
+    const isValidType = ALLOWED_CV_TYPES.includes(file.type) || ALLOWED_CV_EXTENSIONS.includes(ext);
+
+    if (!isValidType) {
+      setToast({ message: 'Please select a valid CV document (.pdf, .doc, .docx, .rtf, .txt)', type: 'error' });
       return;
     }
     setSelectedCvFile(file);
@@ -131,7 +145,7 @@ export default function HeroSettings() {
       setField('cvUrl', res.cvUrl);
       setSelectedCvFile(null);
       if (cvInputRef.current) cvInputRef.current.value = '';
-      setToast({ message: 'CV PDF uploaded to Cloudflare R2', type: 'success' });
+      setToast({ message: 'CV document uploaded to Cloudflare R2', type: 'success' });
     } catch (err) {
       setToast({ message: err.response?.data?.error || 'CV upload failed', type: 'error' });
     } finally {
@@ -224,14 +238,14 @@ export default function HeroSettings() {
             <div className="space-y-4">
               <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                 <span className="font-mono-code text-xs font-bold uppercase tracking-widest text-[var(--accent-gold)] flex items-center gap-2">
-                  <FileText className="w-4 h-4" /> // CV / Resume PDF (Cloudflare R2)
+                  <FileText className="w-4 h-4" /> // CV / Resume Document (Cloudflare R2)
                 </span>
-                <span className="text-[10px] font-mono-code text-[var(--text-muted)]">PDF Format</span>
+                <span className="text-[10px] font-mono-code text-[var(--text-muted)]">PDF, DOC, DOCX</span>
               </div>
 
               <div className="space-y-3">
                 <p className="text-xs text-[var(--text-secondary)]">
-                  Upload your latest CV/Resume PDF. Public visitors will download this file directly via the <code className="font-mono-code text-[var(--accent-gold)]">Download CV</code> button.
+                  Upload your latest CV/Resume document (.pdf, .doc, .docx). Public visitors will download this file directly via the <code className="font-mono-code text-[var(--accent-gold)]">Download CV</code> button.
                 </p>
 
                 {form.cvUrl ? (
@@ -248,7 +262,7 @@ export default function HeroSettings() {
                       rel="noopener noreferrer"
                       className="font-mono-code text-xs text-[var(--accent-gold)] hover:underline flex items-center gap-1 font-bold"
                     >
-                      View PDF <ExternalLink className="w-3 h-3" />
+                      View Document <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
                 ) : (
@@ -260,7 +274,7 @@ export default function HeroSettings() {
                 <input
                   ref={cvInputRef}
                   type="file"
-                  accept="application/pdf"
+                  accept=".pdf,.doc,.docx,.rtf,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/rtf,text/plain"
                   onChange={handleCvFileChange}
                   className="hidden"
                 />
@@ -270,7 +284,7 @@ export default function HeroSettings() {
                   className="btn-secondary py-1.5 px-3 text-[11px] inline-flex items-center gap-1.5"
                 >
                   <Upload className="w-3.5 h-3.5" />
-                  <span>Select CV PDF</span>
+                  <span>Select CV Document</span>
                 </button>
               </div>
             </div>

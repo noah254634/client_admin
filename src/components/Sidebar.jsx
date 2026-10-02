@@ -3,14 +3,15 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
 import {
   LayoutDashboard, FolderKanban, MessageSquare,
-  FileText, LogOut,
+  FileText, LogOut, BarChart3,
 } from 'lucide-react';
 
 const NAV_LINKS = [
-  { to: '/',         label: 'Dashboard', Icon: LayoutDashboard, end: true },
-  { to: '/projects', label: 'Projects',  Icon: FolderKanban,   end: false },
-  { to: '/messages', label: 'Messages',  Icon: MessageSquare,  end: false },
-  { to: '/articles', label: 'Articles',  Icon: FileText,        end: false },
+  { to: '/', label: 'Dashboard', Icon: LayoutDashboard, end: true },
+  { to: '/analytics', label: 'Analytics', Icon: BarChart3, end: false },
+  { to: '/projects', label: 'Projects', Icon: FolderKanban, end: false },
+  { to: '/messages', label: 'Messages', Icon: MessageSquare, end: false },
+  { to: '/articles', label: 'Articles', Icon: FileText, end: false },
 ];
 
 export default function Sidebar() {
@@ -22,7 +23,7 @@ export default function Sidebar() {
 
       {/* ── Brand ── */}
       <div className="px-5 py-5 border-b border-[var(--border-color)]">
-        <a href="http://localhost:5173" target="_blank" rel="noopener noreferrer"
+        <a href="https://noahkhaemba.vercel.app/" target="_blank" rel="noopener noreferrer"
           className="flex items-center gap-3 group">
           <div className="w-9 h-9 rounded-full bg-[var(--accent-dark)] text-[var(--bg-primary)] font-mono-code font-bold text-xs flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
             NK
@@ -44,9 +45,9 @@ export default function Sidebar() {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150
                ${isActive
-                 ? 'bg-[var(--glow-color)] text-[var(--accent-gold)] border border-[var(--accent-gold)]/20'
-                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]'
-               }`
+                ? 'bg-[var(--glow-color)] text-[var(--accent-gold)] border border-[var(--accent-gold)]/20'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]'
+              }`
             }
           >
             <Icon className="w-4 h-4 shrink-0" />
